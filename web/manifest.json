@@ -1,6 +1,6 @@
 {
-    "name": "falcon_nav",
-    "short_name": "falcon_nav",
+    "name": "falconn",
+    "short_name": "falconn",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.falcon_nav">
+    package="com.example.falconn">
    <application
-        android:label="falcon_nav"
+        android:label="falconn"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -30,5 +30,8 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+            <meta-data
+    android:name="com.google.android.geo.API_KEY"
+    android:value="AIzaSyBBGCE-GGr0QX7ithJ_z6m7oOFojSLwtMM" />
     </application>
 </manifest>
