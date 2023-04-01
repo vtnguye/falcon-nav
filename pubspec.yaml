@@ -17,6 +17,8 @@ dependencies:
   dio: ^4.0.0
   flutter_polyline_points: ^0.2.6
   http: ^0.13.3
+  geolocator: ^7.6.2
+  url_launcher: ^6.0.9
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -39,3 +41,4 @@ flutter:
   - C:\Users\farou\Desktop\FalconNav\falconn\assets\images\McFall_Center.jpg
   - C:\Users\farou\Desktop\FalconNav\falconn\assets\images\Olscamp_Hall.jpg
   - C:\Users\farou\Desktop\FalconNav\falconn\assets\images\Shatzel_Hall.jpg
+  - C:\Users\farou\Desktop\FalconNav\falconn\assets\images\Falcon.jpg

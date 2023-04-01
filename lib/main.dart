@@ -1,17 +1,18 @@
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 //import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-    runApp(MaterialApp(
+  runApp(MaterialApp(
     title: 'FalconNav',
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
       primaryColor: Color.fromARGB(255, 201, 85, 31),
       useMaterial3: true,
-      colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 245, 234, 231)),
+      colorScheme:
+          ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 245, 234, 231)),
     ),
     home: ChangeNotifierProvider(
       create: (context) => MyAppState(),
@@ -40,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  title: Text('Select a Building'),
+                  title: Text('Select a Building to nagivate to'),
                   content: SingleChildScrollView(
                     child: Column(
                       children: myAppState.buildings.map((building) {
@@ -57,11 +58,16 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ).then((building) {
               if (building != null) {
-                // TODO: Get directions to selected building
+                LatLng destination = LatLng(building.latitude, building.longitude);
+                LatLng source = LatLng(41.377925,-83.639979);  
+                String destinationUrl = 'https://www.google.com/maps/dir/?api=1&destination=${destination.latitude},${destination.longitude}&travelmode=driving';
+                String sourceUrl = 'https://www.google.com/maps/dir/?api=1&destination=${source.latitude},${source.longitude}&travelmode=driving';
+                String url = 'https://www.google.com/maps/dir/?api=1&origin=${source.latitude},${source.longitude}&destination=${destination.latitude},${destination.longitude}&travelmode=driving';
+                launch(url);
               }
             });
           },
-          child: Text('Select a Building'),
+          child: Text('Select a Building to nagivate to'),
         ),
       ),
       GoogleMap(
@@ -122,7 +128,11 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Expanded(
                 child: Container(
-                  color: Theme.of(context).colorScheme.copyWith(primaryContainer: Color.fromARGB(255, 233, 127, 28)).primaryContainer,
+                  color: Theme.of(context)
+                      .colorScheme
+                      .copyWith(
+                          primaryContainer: Color.fromARGB(255, 233, 127, 28))
+                      .primaryContainer,
                   child: pages[_selectedIndex],
                 ),
               ),
@@ -133,19 +143,20 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
 class MyAppState extends ChangeNotifier {
   List<Building> buildings = [
     Building(
       name: 'BTSU Building',
-      latitude: -83.640271,
-      longitude: 41.377455,
+      latitude: 41.377455,
+      longitude: -83.640271,
       imageUrl: 'assets/images/BTSU.jpg',
       location: 'Bowling Green, OH',
     ),
     Building(
       name: 'Carillon Hall',
-      latitude: -83.637580,
-      longitude: 41.375662,
+      latitude: 41.375662,
+      longitude: -83.637580,
       imageUrl: 'assets/images/Carillon_Hall.jpg',
       location: 'Bowling Green, OH',
     ),
@@ -165,22 +176,22 @@ class MyAppState extends ChangeNotifier {
     ),
     Building(
       name: 'Education Building',
-      latitude: -83.638251,
-      longitude: 41.376763,
+      latitude: 41.376763,
+      longitude: -83.638251,
       imageUrl: 'assets/images/Education_Building.jpg',
       location: 'Bowling Green, OH',
     ),
     Building(
       name: 'Founders Hall',
-      latitude: -83.641806,
-      longitude: 41.375353,
+      latitude: 41.375353,
+      longitude: -83.641806,
       imageUrl: 'assets/images/Founders_Hall.jpg',
       location: 'Bowling Green, OH',
     ),
     Building(
       name: 'Hayes Hall',
-      latitude: -83.639979,
-      longitude: 41.377925,
+      latitude: 41.377925,
+      longitude: -83.639979,
       imageUrl: 'assets/images/Hayes_Hall.jpg',
       location: 'Bowling Green, OH',
     ),
@@ -212,16 +223,15 @@ class MyAppState extends ChangeNotifier {
       imageUrl: 'assets/images/Olscamp_Hall.jpg',
       location: 'Bowling Green, OH',
     ),
-     Building(
+    Building(
       name: 'Shatzel Hall',
-      latitude: -83.642559,
-      longitude: 41.376327,
+      latitude: 41.376327,
+      longitude: -83.642559,
       imageUrl: 'assets/images/Shatzel_Hall.jpg',
       location: 'Bowling Green, OH',
     ),
-
   ];
-   Map<String, LatLng> buildingCoordinates = {
+  Map<String, LatLng> buildingCoordinates = {
     'BTSU Building': LatLng(41.377455, -83.640271),
     'Carillon Hall': LatLng(41.375662, -83.637580),
     'Central Hall': LatLng(41.376795, -83.637400),
@@ -288,7 +298,7 @@ class Building {
   final double longitude;
   final String imageUrl;
   final String location;
-  
+
   Building({
     required this.name,
     required this.latitude,
@@ -330,38 +340,6 @@ class BuildingLocationScreen extends StatelessWidget {
             ),
           ),
         },
-      ),
-    );
-  }
-}
-
-
-class BigCard extends StatelessWidget {
-  const BigCard({
-    super.key,
-    required this.pair,
-  });
-
-  final WordPair pair;
-
-   @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final style = theme.textTheme.displayMedium!.copyWith(
-      color: theme.colorScheme.secondary,
-    );
-
-    return Card(
-      color: theme.colorScheme.secondary,
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-
-        // ↓ Make the following change.
-        child: Text(
-          pair.asLowerCase,
-          style: style,
-          semanticsLabel: "${pair.first} ${pair.second}",
-        ),
       ),
     );
   }
