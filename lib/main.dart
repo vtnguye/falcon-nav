@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 //import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,6 +47,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Column(
                       children: myAppState.buildings.map((building) {
                         return ListTile(
+                          leading: SizedBox(
+                            width: 48.0,
+                            child: Image.asset(building.imageUrl),
+                          ),
                           title: Text(building.name),
                           onTap: () {
                             Navigator.pop(context, building);
@@ -58,11 +63,15 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ).then((building) {
               if (building != null) {
-                LatLng destination = LatLng(building.latitude, building.longitude);
-                LatLng source = LatLng(41.377925,-83.639979);  
-                String destinationUrl = 'https://www.google.com/maps/dir/?api=1&destination=${destination.latitude},${destination.longitude}&travelmode=driving';
-                String sourceUrl = 'https://www.google.com/maps/dir/?api=1&destination=${source.latitude},${source.longitude}&travelmode=driving';
-                String url = 'https://www.google.com/maps/dir/?api=1&origin=${source.latitude},${source.longitude}&destination=${destination.latitude},${destination.longitude}&travelmode=driving';
+                LatLng destination =
+                    LatLng(building.latitude, building.longitude);
+                LatLng source = LatLng(41.376247, -83.639979);
+                String destinationUrl =
+                    'https://www.google.com/maps/dir/?api=1&destination=${destination.latitude},${destination.longitude}&travelmode=driving';
+                String sourceUrl =
+                    'https://www.google.com/maps/dir/?api=1&destination=${source.latitude},${source.longitude}&travelmode=driving';
+                String url =
+                    'https://www.google.com/maps/dir/?api=1&origin=${source.latitude},${source.longitude}&destination=${destination.latitude},${destination.longitude}&travelmode=driving';
                 launch(url);
               }
             });
@@ -72,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       GoogleMap(
         initialCameraPosition: CameraPosition(
-          target: LatLng(41.374498502, -83.624830834),
+          target: LatLng(41.377925, -83.639979),
           zoom: 14,
         ),
         markers: {
@@ -116,6 +125,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     NavigationRailDestination(
                       icon: Icon(Icons.location_city),
                       label: Text('Buildings List'),
+                    ),
+                    NavigationRailDestination(
+                      icon: Icon(Icons.event),
+                      label: Text('Events'),
                     ),
                   ],
                   selectedIndex: _selectedIndex,
